@@ -72,7 +72,7 @@ export function Settings() {
             }
             const formData = new FormData();
             formData.append('file', file);
-            const response = await fetch(`${endpoint}/favicon`, {
+            const response = await fetch(`${endpoint}/api/favicon`, {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',
