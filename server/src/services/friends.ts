@@ -10,7 +10,7 @@ import type { DB } from "../server";
 import { friendCreateSchema, friendUpdateSchema } from "@rin/api";
 
 export function FriendService(router: Router): void {
-    router.group('/api/friend', (group) => {
+    router.group('/friend', (group) => {
         // GET /friend
         group.get('/', async (ctx: Context) => {
             const { admin, uid, store: { db } } = ctx;
