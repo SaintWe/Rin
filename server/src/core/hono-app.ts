@@ -28,19 +28,6 @@ export function createHonoApp(): Hono<{
         Variables: Variables;
     }>();
 
-    // Global middleware
-    app.use('*', cors({
-        origin: (origin) => origin,
-        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-        allowHeaders: ['content-type', 'authorization', 'x-csrf-token'],
-        maxAge: 600,
-        credentials: true,
-    }));
-
-    app.use('*', timingMiddleware);
-    app.use('*', initContainerMiddleware);
-    app.use('*', authMiddleware);
-
     // Health check
     app.get('/', (c) => c.text('Hi'));
 
@@ -76,9 +63,6 @@ export function createHonoApp(): Hono<{
 
     // SEO service
     app.route('/seo', SEOService());
-
-    // RSS service (native RSS endpoints at root)
-    app.route('/', RSSService());
 
     // Favicon service
     app.route('/', FaviconService());
@@ -127,7 +111,24 @@ export function createHonoApp(): Hono<{
         Variables: Variables;
     }>();
 
+    
+    // Global middleware
+    apiApp.use('*', cors({
+        origin: (origin) => origin,
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+        allowHeaders: ['content-type', 'authorization', 'x-csrf-token'],
+        maxAge: 600,
+        credentials: true,
+    }));
+
+    apiApp.use('*', timingMiddleware);
+    apiApp.use('*', initContainerMiddleware);
+    apiApp.use('*', authMiddleware);
+
     apiApp.route("/api", app)
 
+    // RSS service (native RSS endpoints at root)
+    apiApp.route('/', RSSService());
+    
     return apiApp;
 }
